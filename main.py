@@ -1,15 +1,27 @@
-urls = []
+import argparse
 
 
-def load_links():
-    with open('urls.txt', 'r') as file:
-        for line in file:
-            urls.append(line.strip())
-
-
-def main() -> None:
-    pass
+def parse_args():
+    """ Parse command line arguments. """
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--url",
+                        help="url of the page to be monitored")
+    parser.add_argument('--token', dest='token',
+                        help="telegram bot token API")
+    parser.add_argument('--chatid', dest='chatid',
+                        help="telegram chatid where to receive messages")
+    return parser.parse_args()
 
 
 if __name__ == '__main__':
-    main()
+    from bot import Bot
+
+    url = ("https://www.subito.it/annunci-sardegna/affitto/camere-posti-letto"
+           "/cagliari/cagliari/")
+
+    subito_bot = Bot(
+        url,
+        "",
+        123,
+    )
+    subito_bot.start_monitoring()
