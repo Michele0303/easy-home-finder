@@ -2,14 +2,8 @@ import re
 
 import requests as req
 
+from lxml import html
 
-''''
-
-PROVARE CON BURP A TROVARE SECRET API DI SUBITO.IT SFRUTTAND ANCHE L'ID 
-FINALE IN OGNI LINK.
-
-
-'''
 
 class Bot:
     EXTRACT_LINKS_REGEX = ("<div class=\"items__item item-card item-card--big "
@@ -38,34 +32,72 @@ class Bot:
                 # extracts links from page
                 tmp_links = self.__extracts_links()
 
-                for x in tmp_links:
-                    print(x)
-
-                return
-
                 for link in tmp_links:
                     # check if the extracted links are not already in the queue
                     if link not in self.queue:
                         self.__add_listing(link)
                         self.__send_notify(link)
+
         except Exception as ex:
             print(ex)
             pass
 
     def __extracts_links(self) -> list:
-        content = req.get(self.url).text
-        return re.findall(Bot.EXTRACT_LINKS_REGEX, content)
+        try:
+            content = req.get(self.url).text
+            return re.findall(Bot.EXTRACT_LINKS_REGEX, content)
+        except Exception:
+            return []
 
     def __add_listing(self, listing: str) -> None:
         if self.__is_queue_full():
             self.queue.pop(0)  # remove first element FIFO
         self.queue.append(listing)
 
-    def __get_title(self) -> str:
-        return self.url
+    def __get_listing_info(self, url: str):
+        try:
+            content = req.get(url).text
+            self.tree = html.fromstring(content)
 
-    def __send_notify(self, link: str) -> None:
-        pass
+            title = self.__get_title()
+            price = self.__get_price()
+
+            return title, price
+        except Exception:
+            pass
+
+    def __get_title(self) -> str:
+        try:
+            return self.tree.xpath('//*[@id="layout"]/main/div[3]/div['
+                                   '1]/div[1]/section/div[2]/h1/text()')[0]
+        except Exception:
+            return ""
+
+    def __get_price(self) -> str:
+        try:
+            return self.tree.xpath('//*[@id="layout"]/main/div[3]/div['
+                                   '1]/div[1]/section/div[2]/p/text()')[0]
+        except Exception:
+            return ""
+
+    def __send_notify(self, url: str) -> None:
+        try:
+            title, price = self.__get_listing_info(url)
+
+            message = (f"🚨 <b>Nuovo Annuncio</b> 🚨\n\n"
+                       f"<b>Titolo:</b> <code>{title}</code>\n\n"
+                       f"<b>Prezzo:</b> <i>{price}</i>\n\n"
+                       f"<b>Url:</b> <a href='{url}'>vai all'annuncio</a>")
+
+            api_url = (f"https://api.telegram.org/bot"
+                       f"{self.token_api}/sendMessage"
+                       f"?chat_id={self.chat_id}"
+                       f"&text={message}"
+                       f"&parse_mode=html")
+
+            req.get(api_url)
+        except Exception:
+            pass
 
     def __is_queue_full(self) -> bool:
         return len(self.queue) == self.QUEUE_MAX_LEN

@@ -14,6 +14,7 @@ def parse_args():
 
 
 if __name__ == '__main__':
+
     from bot import Bot
 
     url = ("https://www.subito.it/annunci-sardegna/affitto/camere-posti-letto"
@@ -21,7 +22,7 @@ if __name__ == '__main__':
 
     subito_bot = Bot(
         url,
-        "",
-        123,
+        "5217482235:AAGtYQCxN3swOWn-IeVfA-JZi7vD-H1LKK4",
+        955112744,
     )
     subito_bot.start_monitoring()
