@@ -6,6 +6,7 @@ from lxml import html
 
 
 class Bot:
+    # Regular expression for extracting links from the page
     EXTRACT_LINKS_REGEX = ("<div class=\"items__item item-card item-card--big "
                            "BigCard-module_card__Exzqv\"><a href=\"(.*?)\"")
 
@@ -24,16 +25,16 @@ class Bot:
 
     def start_monitoring(self):
         try:
-            # first start
+            # Initial extraction of links
             self.queue = self.__extracts_links()
 
-            # start monitoring
+            # Start monitoring loop
             while True:
-                # extracts links from page
+                # Extract links from the page
                 tmp_links = self.__extracts_links()
 
                 for link in tmp_links:
-                    # check if the extracted links are not already in the queue
+                    # Check if the extracted links are not already in the queue
                     if link not in self.queue:
                         self.__add_listing(link)
                         self.__send_notify(link)
@@ -43,6 +44,7 @@ class Bot:
             pass
 
     def __extracts_links(self) -> list:
+        """ Return all listings on the page. """
         try:
             content = req.get(self.url).text
             return re.findall(Bot.EXTRACT_LINKS_REGEX, content)
@@ -50,11 +52,13 @@ class Bot:
             return []
 
     def __add_listing(self, listing: str) -> None:
+        """ Adds the listing to the queue. """
         if self.__is_queue_full():
             self.queue.pop(0)  # remove first element FIFO
         self.queue.append(listing)
 
     def __get_listing_info(self, url: str):
+        """" Return listing information.  """
         try:
             content = req.get(url).text
             self.tree = html.fromstring(content)
@@ -67,6 +71,7 @@ class Bot:
             pass
 
     def __get_title(self) -> str:
+        """ Return the title of the listing. """
         try:
             return self.tree.xpath('//*[@id="layout"]/main/div[3]/div['
                                    '1]/div[1]/section/div[2]/h1/text()')[0]
@@ -74,6 +79,7 @@ class Bot:
             return ""
 
     def __get_price(self) -> str:
+        """ Return the price of the listing. """
         try:
             return self.tree.xpath('//*[@id="layout"]/main/div[3]/div['
                                    '1]/div[1]/section/div[2]/p/text()')[0]
@@ -81,6 +87,7 @@ class Bot:
             return ""
 
     def __send_notify(self, url: str) -> None:
+        """ Send notify to telegram """
         try:
             title, price = self.__get_listing_info(url)
 
@@ -100,4 +107,5 @@ class Bot:
             pass
 
     def __is_queue_full(self) -> bool:
+        """ Check if queue is full. """
         return len(self.queue) == self.QUEUE_MAX_LEN
