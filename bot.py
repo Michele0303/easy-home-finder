@@ -1,4 +1,5 @@
 import re
+import time
 
 import requests as req
 
@@ -38,6 +39,8 @@ class Bot:
                     if link not in self.queue:
                         self.__add_listing(link)
                         self.__send_notify(link)
+
+                time.sleep(self.delay)
 
         except Exception as ex:
             print(ex)
