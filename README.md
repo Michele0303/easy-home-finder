@@ -24,13 +24,12 @@ Follow these steps to get started with Subito-Alert-Bot:
 
 1. Clone this repository: `git clone https://github.com/Michele0303/subito-alert-bot.git`
 2. Install the necessary dependencies: `pip install -r requirements.txt`
-3. Configure your search preferences in `urls.txt`.
-4. Run the bot: `python main.py`
+4. Run the bot: `python main.py --url {subito.it url} --token {token_bot} --chatid {chat_id}` to 
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
 
 ---
-*Disclaimer: Subito-Alert-Bot is an independent tool and is not affiliated with Subito.it.*
+Disclaimer: Subito-Alert-Bot is an independent tool and is not affiliated with Subito.it.
 ---
