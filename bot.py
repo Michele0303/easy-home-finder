@@ -18,7 +18,7 @@ class Bot:
 
         # queue
         self.queue = []
-        self.QUEUE_MAX_LEN = 30
+        self.QUEUE_MAX_LEN = 90
 
         # telegram settings
         self.token_api = token_api
