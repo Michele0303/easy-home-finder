@@ -22,7 +22,7 @@ Follow these steps to get started with Subito.it Alert Bot:
 
 1. Clone this repository: `git clone https://github.com/Michele0303/subito.it-alert-bot`
 2. Install the necessary dependencies: `pip install -r requirements.txt`
-4. Run the bot: `python main.py --url {subito.it url} --token {token_bot} --chatid {chat_id}` to 
+4. Run the bot: `python main.py --url {subito.it url} --token {token_bot} --chatid {chat_id}`
 
 ## License
 
