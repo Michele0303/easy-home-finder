@@ -29,5 +29,5 @@ Follow these steps to get started with Subito.it Alert Bot:
 This project is licensed under the [MIT License](LICENSE).
 
 ---
-Disclaimer: Subito-Alert-Bot is an independent tool and is not affiliated with Subito.it.
+Disclaimer: Subito.it-Alert-Bot is an independent tool and is not affiliated with Subito.it.
 ---
