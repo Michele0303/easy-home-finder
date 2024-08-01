@@ -76,16 +76,15 @@ class Bot:
     def __get_title(self) -> str:
         """ Return the title of the listing. """
         try:
-            return self.tree.xpath('//*[@id="layout"]/main/div[3]/div['
-                                   '1]/div[1]/section/div[2]/h1/text()')[0]
+            return self.tree.xpath('//*[@id="layout"]/main/div[2]/div/div[2]/div[1]/div[1]/section/div[2]/h1/text()')[0]
+        
         except Exception:
             return ""
 
     def __get_price(self) -> str:
         """ Return the price of the listing. """
         try:
-            return self.tree.xpath('//*[@id="layout"]/main/div[3]/div['
-                                   '1]/div[1]/section/div[2]/p/text()')[0]
+            return self.tree.xpath('//*[@id="layout"]/main/div[2]/div/div[2]/div[1]/div[1]/section/div[2]/p/text()')[0]
         except Exception:
             return ""
 
