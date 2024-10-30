@@ -11,6 +11,19 @@ class Bot:
     EXTRACT_LINKS_REGEX = ("<div class=\"items__item item-card item-card--big "
                            "BigCard-module_card__Exzqv\"><a href=\"(.*?)\"")
 
+    HEADERS = {
+        "Sec-Ch-Ua": "\"Chromium\";v=\"129\", \"Not=A?Brand\";v=\"8\"",
+        "Sec-Ch-Ua-Mobile": "?0", "Sec-Ch-Ua-Platform": "\"Linux\"",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Upgrade-Insecure-Requests": "1",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.6668.71 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "Sec-Fetch-Site": "none", "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-User": "?1", "Sec-Fetch-Dest": "document",
+        "Accept-Encoding": "gzip, deflate, br", "Priority": "u=0, i",
+        "Connection": "keep-alive"
+    }
+
     def __init__(self, url: str, token_api: str, chat_id: int):
         # subito.it settings
         self.url = url
@@ -49,7 +62,7 @@ class Bot:
     def __extracts_links(self) -> list:
         """ Return all listings on the page. """
         try:
-            content = req.get(self.url).text
+            content = req.get(self.url, headers=Bot.HEADERS).text
             return re.findall(Bot.EXTRACT_LINKS_REGEX, content)
         except Exception:
             return []
@@ -63,7 +76,7 @@ class Bot:
     def __get_listing_info(self, url: str):
         """" Return listing information.  """
         try:
-            content = req.get(url).text
+            content = req.get(url, headers=Bot.HEADERS).text
             self.tree = html.fromstring(content)
 
             title = self.__get_title()
@@ -76,15 +89,14 @@ class Bot:
     def __get_title(self) -> str:
         """ Return the title of the listing. """
         try:
-            return self.tree.xpath('//*[@id="layout"]/main/div[2]/div/div[2]/div[1]/div[1]/section/div[2]/h1/text()')[0]
-        
+            return self.tree.xpath('//*[@id="layout"]/main/div[2]/div/div[3]/div[1]/div[1]/section/div[2]/h1/text()')[0]
         except Exception:
             return ""
 
     def __get_price(self) -> str:
         """ Return the price of the listing. """
         try:
-            return self.tree.xpath('//*[@id="layout"]/main/div[2]/div/div[2]/div[1]/div[1]/section/div[2]/p/text()')[0]
+            return self.tree.xpath('//*[@id="layout"]/main/div[2]/div/div[3]/div[1]/div[1]/section/div[2]/p/text()')[0]
         except Exception:
             return ""
 
