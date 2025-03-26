@@ -96,7 +96,7 @@ class Bot:
     def __get_price(self) -> str:
         """ Return the price of the listing. """
         try:
-            return self.tree.xpath('//*[@id="layout"]/main/div[2]/div/div[3]/div[1]/div[1]/section/div[2]/p/text()')[0]
+            return self.tree.xpath('//*[@id="layout"]/main/div[2]/div/div[3]/div[1]/div[1]/section/div[2]/div[3]/div/p/text()')[0]
         except Exception:
             return ""
 
