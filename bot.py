@@ -48,7 +48,8 @@ class Bot:
         try:
             content = req.get(self.url, headers=Bot.HEADERS).text
             return re.findall(Bot.EXTRACT_LINKS_REGEX, content)
-        except Exception:
+        except Exception as ex:
+            print('Error during extracting links:', ex)
             return []
 
     def __add_to_queue(self, listing: str) -> None:
@@ -67,21 +68,21 @@ class Bot:
 
             return title, price
         except Exception:
-            pass
+            raise
 
     def __get_title(self) -> str:
         """ Return the title of the listing. """
         try:
             return self.tree.xpath('//*[@id="layout"]/main/div[2]/div/div[3]/div[1]/div[1]/section/div[2]/h1/text()')[0]
         except Exception:
-            return ""
+            raise
 
     def __get_price(self) -> str:
         """ Return the price of the listing. """
         try:
             return self.tree.xpath('//*[@id="layout"]/main/div[2]/div/div[3]/div[1]/div[1]/section/div[2]/div[3]/div/p/text()')[0]
         except Exception:
-            return ""
+            raise
 
     def __send_notification(self, url: str) -> None:
         try:
@@ -100,5 +101,5 @@ class Bot:
                 f"&parse_mode=html"
             )
             req.get(api_url)
-        except Exception:
-            pass
+        except Exception as ex:
+            print('Error during sending notification:', ex)
