@@ -57,22 +57,27 @@ class Bot:
         self.queue.append(listing)
 
     def __get_listing_info(self, url: str):
+        """" Return listing information.  """
         try:
             content = req.get(url, headers=Bot.HEADERS).text
             self.tree = html.fromstring(content)
+
             title = self.__get_title()
             price = self.__get_price()
+
             return title, price
         except Exception:
-            return "", ""
+            pass
 
     def __get_title(self) -> str:
+        """ Return the title of the listing. """
         try:
             return self.tree.xpath('//*[@id="layout"]/main/div[2]/div/div[3]/div[1]/div[1]/section/div[2]/h1/text()')[0]
         except Exception:
             return ""
 
     def __get_price(self) -> str:
+        """ Return the price of the listing. """
         try:
             return self.tree.xpath('//*[@id="layout"]/main/div[2]/div/div[3]/div[1]/div[1]/section/div[2]/div[3]/div/p/text()')[0]
         except Exception:
