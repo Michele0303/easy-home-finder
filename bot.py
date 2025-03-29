@@ -5,10 +5,9 @@ from lxml import html
 
 
 class Bot:
-    EXTRACT_LINKS_REGEX = (
-        "<div class=\"items__item item-card item-card--big "
-        "BigCard-module_card__Exzqv\"><a href=\"(.*?)\""
-    )
+    # Regular expression for extracting links from the page
+    EXTRACT_LINKS_REGEX = ("<div class=\"items__item item-card item-card--big "
+                           "BigCard-module_card__Exzqv\"><a href=\"(.*?)\"")
 
     HEADERS = {
         "Sec-Ch-Ua": "\"Chromium\";v=\"129\", \"Not=A?Brand\";v=\"8\"",
@@ -24,13 +23,17 @@ class Bot:
     }
 
     def __init__(self, url: str, token_api: str, chat_id: int):
+        # subito.it settings
         self.url = url
         self.delay = 60  # seconds
-        self.queue = []
+
+        # queue
+        self.queue = self.__extract_links()
         self.QUEUE_MAX_LEN = 90
+
+        # telegram settings
         self.token_api = token_api
         self.chat_id = chat_id
-        self.queue = self.__extract_links()
 
     def check_for_updates(self):
         """Checks for new listings and sends a notification if found."""
@@ -87,19 +90,18 @@ class Bot:
     def __send_notification(self, url: str) -> None:
         try:
             title, price = self.__get_listing_info(url)
-            message = (
-                f"🚨 <b>New Listing</b> 🚨\n\n"
-                f"<b>Title:</b> <code>{title}</code>\n\n"
-                f"<b>Price:</b> <i>{price}</i>\n\n"
-                f"<b>URL:</b> <a href='{url}'>View listing</a>"
-            )
 
-            api_url = (
-                f"https://api.telegram.org/bot{self.token_api}/sendMessage"
-                f"?chat_id={self.chat_id}"
-                f"&text={message}"
-                f"&parse_mode=html"
-            )
+            message = (f"🚨 <b>Nuovo Annuncio</b> 🚨\n\n"
+                       f"<b>Titolo:</b> <code>{title}</code>\n\n"
+                       f"<b>Prezzo:</b> <i>{price}</i>\n\n"
+                       f"<b>Url:</b> <a href='{url}'>vai all'annuncio</a>")
+
+            api_url = (f"https://api.telegram.org/bot"
+                       f"{self.token_api}/sendMessage"
+                       f"?chat_id={self.chat_id}"
+                       f"&text={message}"
+                       f"&parse_mode=html")
+
             req.get(api_url)
         except Exception as ex:
             print('Error during sending notification:', ex)
