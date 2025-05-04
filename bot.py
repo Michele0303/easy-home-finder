@@ -10,16 +10,19 @@ class Bot:
                            "BigCard-module_card__Exzqv\"><a href=\"(.*?)\"")
 
     HEADERS = {
-        "Sec-Ch-Ua": "\"Chromium\";v=\"129\", \"Not=A?Brand\";v=\"8\"",
-        "Sec-Ch-Ua-Mobile": "?0", "Sec-Ch-Ua-Platform": "\"Linux\"",
+        "Sec-Ch-Ua": '"Not:A-Brand";v="24", "Chromium";v="134"',
+        "Sec-Ch-Ua-Mobile": "?0",
+        "Sec-Ch-Ua-Platform": "\"Linux\"",
         "Accept-Language": "en-US,en;q=0.9",
         "Upgrade-Insecure-Requests": "1",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.6668.71 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-        "Sec-Fetch-Site": "none", "Sec-Fetch-Mode": "navigate",
-        "Sec-Fetch-User": "?1", "Sec-Fetch-Dest": "document",
-        "Accept-Encoding": "gzip, deflate, br", "Priority": "u=0, i",
-        "Connection": "keep-alive"
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-User": "?1",
+        "Sec-Fetch-Dest": "document",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Priority": "u=0, i",
     }
 
     def __init__(self, url: str, token_api: str, chat_id: int):
