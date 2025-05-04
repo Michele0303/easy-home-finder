@@ -4,8 +4,8 @@ import argparse
 def parse_args():
     """ Parse command line arguments. """
     parser = argparse.ArgumentParser()
-    parser.add_argument("--url",
-                        help="url of the page to be monitored")
+    parser.add_argument("--urls", nargs='+',
+                        help="List of URLs to monitor (separated by space)")
     parser.add_argument('--token', dest='token',
                         help="telegram bot token API")
     parser.add_argument('--chatid', dest='chatid',
@@ -18,8 +18,8 @@ if __name__ == '__main__':
     from bot import Bot
 
     parse = parse_args()
-    if not parse.url:
-        print("Please enter a url")
+    if not parse.urls:
+        print("Please provide at least one URL.")
         exit(1)
     if not parse.token:
         print("Please enter a telegram token")
@@ -28,14 +28,15 @@ if __name__ == '__main__':
         print("Please enter a telegram chatid")
         exit(1)
 
-    url = parse.url
+    urls = parse.urls
     token = parse.token
     chat_id = parse.chatid
 
-    subito_bot = Bot(
-        url=url,
-        token_api=token,
-        chat_id=chat_id,
-    )
+    bots = [
+        Bot(url=u, token_api=token, chat_id=chat_id)
+        for u in urls
+    ]
 
-    subito_bot.start_monitoring()
+    while True:
+        for bot in bots:
+            bot.check_for_updates()
