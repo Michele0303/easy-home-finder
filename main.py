@@ -26,6 +26,7 @@ def get_fetcher(url):
 
 if __name__ == '__main__':
 
+    """
     parse = parse_args()
     if not parse.urls:
         print("Please provide at least one URL.")
@@ -40,6 +41,14 @@ if __name__ == '__main__':
     urls = parse.urls
     token = parse.token
     chat_id = parse.chatid
+    """
+
+    urls = [
+        #"https://www.subito.it/annunci-sardegna/vendita/appartamenti/cagliari/",
+        "https://www.immobiliare.it/affitto-case/cagliari/san-benedetto-villanova/?criterio=data&ordine=desc&mapCenter=39.218988%2C9.117923&zoom=14"
+    ]
+    token = "7846772183:AAGoGz7ENtjxXoNimulWxQpu2xNiqqoXHiA"
+    chat_id = 1110107842
 
     bots = [
         ListingMonitor(

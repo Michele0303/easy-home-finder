@@ -1,7 +1,3 @@
-import requests
-import re
-from lxml import html
-
 from modules.listing_fetcher import ListingFetcher
 
 
@@ -13,12 +9,8 @@ class ImmobiliareFetcher(ListingFetcher):
         self.headers = {}
 
     def extract_links(self) -> list:
-        content = requests.get(self.url, headers=self.headers).text
-        return re.findall(self.extract_links_regex, content)
+        raise NotImplementedError
 
     def get_listing_info(self, url: str) -> tuple[str, str]:
-        content = requests.get(url, headers=self.headers).text
-        tree = html.fromstring(content)
-        title = tree.xpath('...')[0]
-        price = tree.xpath('...')[0]
-        return title, price
+        raise NotImplementedError
+
