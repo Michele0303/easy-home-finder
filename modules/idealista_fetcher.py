@@ -3,8 +3,10 @@ import re
 import requests
 from lxml import html
 
+from modules.listing_fetcher import ListingFetcher
 
-class IdealistaFetcher:
+
+class IdealistaFetcher(ListingFetcher):
 
     def __init__(self, url: str):
         self.url = url
