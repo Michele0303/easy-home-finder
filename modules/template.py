@@ -1,4 +1,4 @@
-class IdealistaFetcher:
+class Template:
 
     def __init__(self, url: str):
         self.url = url
@@ -9,13 +9,10 @@ class IdealistaFetcher:
         raise NotImplementedError
 
     def get_title(self) -> str:
-        """ Return the title of the listing. """
         raise NotImplementedError
 
     def get_price(self) -> str:
-        """ Return the price of the listing. """
         raise NotImplementedError
 
     def get_listing_info(self, url: str) -> tuple[str, str]:
         raise NotImplementedError
-

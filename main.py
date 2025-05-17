@@ -1,6 +1,7 @@
 import argparse
 
 from listing_monitoring import ListingMonitor
+from modules.idealista_fetcher import IdealistaFetcher
 from modules.immobiliare_fetcher import ImmobiliareFetcher
 from modules.subito_fetcher import SubitoFetcher
 
@@ -19,6 +20,8 @@ def parse_args():
 def get_fetcher(url):
     if "subito.it" in url:
         return SubitoFetcher(url)
+    elif "idealista.it" in url:
+        return IdealistaFetcher(url)
     elif "immobiliare.it" in url:
         return ImmobiliareFetcher(url)
     else:
@@ -45,7 +48,7 @@ if __name__ == '__main__':
 
     urls = [
         #"https://www.subito.it/annunci-sardegna/vendita/appartamenti/cagliari/",
-        "https://www.immobiliare.it/affitto-case/cagliari/san-benedetto-villanova/?criterio=data&ordine=desc&mapCenter=39.218988%2C9.117923&zoom=14"
+        "https://www.idealista.it/affitto-case/cagliari-cagliari/?ordine=pubblicazione-desc"
     ]
     token = "7846772183:AAGoGz7ENtjxXoNimulWxQpu2xNiqqoXHiA"
     chat_id = 1110107842
