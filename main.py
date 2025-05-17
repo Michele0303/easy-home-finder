@@ -1,5 +1,9 @@
 import argparse
 
+from listing_monitoring import ListingMonitor
+from modules.immobiliare_fetcher import ImmobiliareFetcher
+from modules.subito_fetcher import SubitoFetcher
+
 
 def parse_args():
     """ Parse command line arguments. """
@@ -12,10 +16,15 @@ def parse_args():
                         help="telegram chatid where to receive messages")
     return parser.parse_args()
 
+def get_fetcher(url):
+    if "subito.it" in url:
+        return SubitoFetcher(url)
+    elif "immobiliare.it" in url:
+        return ImmobiliareFetcher(url)
+    else:
+        raise ValueError("Unsupported site")
 
 if __name__ == '__main__':
-
-    from bot import Bot
 
     parse = parse_args()
     if not parse.urls:
@@ -33,8 +42,12 @@ if __name__ == '__main__':
     chat_id = parse.chatid
 
     bots = [
-        Bot(url=u, token_api=token, chat_id=chat_id)
-        for u in urls
+        ListingMonitor(
+            fetcher=get_fetcher(url),
+            token_api=token,
+            chat_id=chat_id
+        )
+        for url in urls
     ]
 
     while True:
