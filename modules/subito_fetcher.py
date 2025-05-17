@@ -6,6 +6,7 @@ from modules.listing_fetcher import ListingFetcher
 
 
 class SubitoFetcher(ListingFetcher):
+
     def __init__(self, url: str):
         self.url = url
         self.headers = {
@@ -27,6 +28,7 @@ class SubitoFetcher(ListingFetcher):
             "<div class=\"items__item item-card item-card--big "
             "BigCard-module_card__Exzqv\"><a href=\"(.*?)\""
         )
+        self.tree = None
 
     def extract_links(self) -> list:
         content = requests.get(self.url, headers=self.headers).text

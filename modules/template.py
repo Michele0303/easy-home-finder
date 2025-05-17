@@ -4,6 +4,7 @@ class Template:
         self.url = url
         self.headers = {}
         self.extract_links_regex = ()
+        self.tree = None
 
     def extract_links(self) -> list:
         raise NotImplementedError

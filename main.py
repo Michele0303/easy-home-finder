@@ -2,7 +2,6 @@ import argparse
 
 from listing_monitoring import ListingMonitor
 from modules.idealista_fetcher import IdealistaFetcher
-from modules.immobiliare_fetcher import ImmobiliareFetcher
 from modules.subito_fetcher import SubitoFetcher
 
 
@@ -22,8 +21,6 @@ def get_fetcher(url):
         return SubitoFetcher(url)
     elif "idealista.it" in url:
         return IdealistaFetcher(url)
-    elif "immobiliare.it" in url:
-        return ImmobiliareFetcher(url)
     else:
         raise ValueError("Unsupported site")
 

@@ -17,6 +17,7 @@ class ListingMonitor:
     def check_for_updates(self):
         try:
             new_links = self.fetcher.extract_links()
+            print(new_links)
             for link in new_links:
                 if link not in self.queue:
                     self.__send_notification(link)
